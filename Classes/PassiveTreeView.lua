@@ -516,13 +516,7 @@ function PassiveTreeViewClass:Draw(build, viewPort, inputEvents)
 			end
 		elseif node.alloc then
 			local socket, jewel = build.itemsTab:GetSocketAndJewelForNodeID(nodeId)
-			if node.type == "Socket" then
-				for i,v in pairs(jewel) do
-					ConPrintf("%s = %s", i, v)
-				end
-			end
-			-- This if statement is failing because jewelRadiusID is never being set, no idea why
-			if jewel and jewel.jewelRadiusID ~= nil then
+			if jewel and jewel.jewelRadiusID then
 				-- Socket is allocated and there's a jewel socketed into it which has a radius, so show it
 				local scrX, scrY = treeToScreen(node.x, node.y)
 				local radData = build.data.jewelRadius[jewel.jewelRadiusID]
