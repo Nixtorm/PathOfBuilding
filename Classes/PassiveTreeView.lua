@@ -504,20 +504,36 @@ function PassiveTreeViewClass:Draw(build, viewPort, inputEvents)
 		if node == hoverNode then
 			-- Mouse is over this socket, show all radius rings
 			local scrX, scrY = treeToScreen(node.x, node.y)
-			for _, radData in ipairs(build.data.jewelRadius) do
-				local size = radData.rad * scale
+			for _, radData in pairs(build.data.jewelRadius) do
+				local size = radData.outerRadius * scale
 				SetDrawColor(radData.col)
 				DrawImage(self.ring, scrX - size, scrY - size, size * 2, size * 2)
+				if radData.innerRadius > 0 then
+					local size = radData.innerRadius * scale
+					SetDrawColor("^xFFFFFF")
+					DrawImage(self.ring, scrX - size, scrY - size, size * 2, size * 2)
+				end
 			end
 		elseif node.alloc then
 			local socket, jewel = build.itemsTab:GetSocketAndJewelForNodeID(nodeId)
-			if jewel and jewel.jewelRadiusIndex then
+			if node.type == "Socket" then
+				for i,v in pairs(jewel) do
+					ConPrintf("%s = %s", i, v)
+				end
+			end
+			-- This if statement is failing because jewelRadiusID is never being set, no idea why
+			if jewel and jewel.jewelRadiusID ~= nil then
 				-- Socket is allocated and there's a jewel socketed into it which has a radius, so show it
 				local scrX, scrY = treeToScreen(node.x, node.y)
-				local radData = build.data.jewelRadius[jewel.jewelRadiusIndex]
-				local size = radData.rad * scale
+				local radData = build.data.jewelRadius[jewel.jewelRadiusID]
+				local size = radData.outerRadius * scale
 				SetDrawColor(radData.col)
-				DrawImage(self.ring, scrX - size, scrY - size, size * 2, size * 2)				
+				DrawImage(self.ring, scrX - size, scrY - size, size * 2, size * 2)
+				if radData.innerRadius > 0 then
+					local size = radData.innerRadius * scale
+					SetDrawColor("^xFFFFFF")
+					DrawImage(self.ring, scrX - size, scrY - size, size * 2, size * 2)
+				end
 			end
 		end
 	end
