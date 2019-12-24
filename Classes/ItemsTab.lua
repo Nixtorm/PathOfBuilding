@@ -1881,8 +1881,8 @@ function ItemsTabClass:AddItemTooltip(tooltip, item, slot, dbMode)
 		if item.limit then
 			tooltip:AddLine(16, "^x7F7F7FLimited to: ^7"..item.limit)
 		end
-		if item.jewelRadiusIndex then
-			tooltip:AddLine(16, "^x7F7F7FRadius: ^7"..data.jewelRadius[item.jewelRadiusIndex].label)
+		if item.jewelRadiusID then
+			tooltip:AddLine(16, "^x7F7F7FRadius: ^7"..item.jewelRadiusID)
 		end
 		if item.jewelRadiusData and slot and item.jewelRadiusData[slot.nodeId] then
 			local radiusData = item.jewelRadiusData[slot.nodeId]
