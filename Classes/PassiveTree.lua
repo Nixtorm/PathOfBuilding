@@ -357,18 +357,48 @@ local PassiveTreeClass = newClass("PassiveTree", function(self, treeVersion)
 	for nodeId, socket in pairs(sockets) do
 		socket.nodesInRadius = { }
 		socket.attributesInRadius = { }
+
 		for radiusIndex, radiusInfo in ipairs(data[self.targetVersion].jewelRadius) do
 			socket.nodesInRadius[radiusIndex] = { }
 			socket.attributesInRadius[radiusIndex] = { }
+
+			function jewelRadiusInfoByLabel(label)
+				for idx, info in ipairs(data[self.targetVersion].jewelRadius) do
+					if info.label == label then
+						return info
+					end
+				end
+			end
+
+			local innerRadius = { }
+			-- Do not process inner jewel radii
+			if     radiusInfo.label == "ToHSmInner" then goto continue
+			elseif radiusInfo.label == "ToHMedInner" then goto continue
+			elseif radiusInfo.label == "ToHLgInner" then goto continue
+			elseif radiusInfo.label == "ToHXLInner" then goto continue
+			end
+
+			-- If we are on an outer jewel radius, get the corresponding inner radius
+			if     radiusInfo.label == "ToHSmall" then innerRadius = jewelRadiusInfoByLabel("ToHSmInner")
+			elseif radiusInfo.label == "ToHMedium" then innerRadius = jewelRadiusInfoByLabel("ToHMedInner")
+			elseif radiusInfo.label == "ToHLarge" then innerRadius = jewelRadiusInfoByLabel("ToHLgInner")
+			elseif radiusInfo.label == "ToHXL" then innerRadius = jewelRadiusInfoByLabel("ToHXLInner")
+			end
+
 			local rSq = radiusInfo.rad * radiusInfo.rad
+			local irSq = 0
+			if next(innerRadius) ~= nil then
+				irSq = innerRadius.rad * innerRadius.rad
+			end
 			for _, node in pairs(self.nodes) do
 				if node ~= socket and not node.isBlighted then
 					local vX, vY = node.x - socket.x, node.y - socket.y
-					if vX * vX + vY * vY <= rSq then 
+					if vX * vX + vY * vY <= rSq and vX * vX + vY * vY >= irSq then
 						socket.nodesInRadius[radiusIndex][node.id] = node
 					end
 				end
 			end
+			::continue::
 		end
 	end
 
