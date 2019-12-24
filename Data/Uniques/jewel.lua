@@ -259,10 +259,15 @@ Radius: Small
 If 4 Notables are Allocated in Radius, When you Kill a Rare monster, you gain 1
 of its mods for 20 seconds
 ]],[[
+Thread of Hope (Small)
+Viridian Jewel
+Radius: ToHSmall
+passives in radius can be allocated without being connected to your tree
+]],[[
 Intuitive Leap
 Viridian Jewel
 Radius: Small
-Passives in Radius can be Allocated without being connected to your tree
+passives in radius can be allocated without being connected to your tree
 ]],[[
 Izaro's Turmoil
 Crimson Jewel
