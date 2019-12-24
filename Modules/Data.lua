@@ -115,8 +115,19 @@ data.skillColorMap = { colorCodes.STRENGTH, colorCodes.DEXTERITY, colorCodes.INT
 
 data.jewelRadius = {
 	{ rad = 800, col = "^xBB6600", label = "Small" },
+	{ rad = 860, col = "^xFFFFFF", label = "ToHSmInner"},
+	{ rad = 1099, col = "^xBA0021", label = "ToHSmall"},
+	
+	{ rad = 1165, col = "^xFFFFFF", label = "ToHMedInner"},
 	{ rad = 1200, col = "^x66FFCC", label = "Medium" },
-	{ rad = 1500, col = "^x2222CC", label = "Large" }
+	{ rad = 1397, col = "^xD3DA00", label = "ToHMedium"},
+	
+	{ rad = 1468, col = "^xFFFFFF", label = "ToHLgInner" },
+	{ rad = 1500, col = "^x2222CC", label = "Large" },
+	{ rad = 1701, col = "^x005902", label = "ToHLarge" },
+	
+	{ rad = 1772, col = "^xFFFFFF", label = "ToHXLInner" },
+	{ rad = 2000, col = "^x780087", label = "ToHXL" }
 }
 
 data.labyrinths = {
