@@ -429,7 +429,13 @@ function PassiveSpecClass:BuildAllDependsAndPaths()
 		node.dependsOnIntuitiveLeap = false
 		if node.type ~= "ClassStart" then
 			for nodeId, itemId in pairs(self.jewels) do
-				if self.allocNodes[nodeId] and (self.nodes[nodeId].nodesInRadius[1][node.id] or self.nodes[nodeId].nodesInRadius[3][node.id] or self.nodes[nodeId].nodesInRadius[6][node.id] or self.nodes[nodeId].nodesInRadius[9][node.id] or self.nodes[nodeId].nodesInRadius[11][node.id]) then
+				if self.allocNodes[nodeId] and (
+					self.nodes[nodeId].nodesInRadius["Small"][node.id] or
+					self.nodes[nodeId].nodesInRadius["ToHSmall"][node.id] or
+					self.nodes[nodeId].nodesInRadius["ToHMedium"][node.id] or
+					self.nodes[nodeId].nodesInRadius["ToHLarge"][node.id] or
+					self.nodes[nodeId].nodesInRadius["ToHXL"][node.id]
+					) then
 					if itemId ~= 0 and self.build.itemsTab.items[itemId] and self.build.itemsTab.items[itemId].jewelData and self.build.itemsTab.items[itemId].jewelData.intuitiveLeap then
 						-- This node depends on Intuitive Leap
 						-- This flag:
@@ -482,7 +488,7 @@ function PassiveSpecClass:BuildAllDependsAndPaths()
 			for _, depNode in ipairs(node.depends) do
 				local prune = true
 				for nodeId, itemId in pairs(self.jewels) do
-					if self.allocNodes[nodeId] and self.nodes[nodeId].nodesInRadius[1][depNode.id] then
+					if self.allocNodes[nodeId] and self.nodes[nodeId].nodesInRadius["ToHXL"][depNode.id] then
 						if itemId ~= 0 and (not self.build.itemsTab.items[itemId] or (self.build.itemsTab.items[itemId].jewelData and self.build.itemsTab.items[itemId].jewelData.intuitiveLeap)) then
 							-- Hold off on the pruning; this node is within the radius of a jewel that is or could be Intuitive Leap
 							prune = false

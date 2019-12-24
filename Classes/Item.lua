@@ -182,6 +182,13 @@ function ItemClass:ParseRaw(raw)
 				specName, specVal = line:match("^(Requires) (.+)$")
 			end
 			if specName then
+				-- This is where I thought the lines in Data/Uniques/jewel.lua were getting parsed,
+				-- but instead of the below if statement printing the property names for all jewels
+				-- it only sometimes prints Implicit. Is this function not being called when POB
+				-- loads?
+				if self.Type == "Jewel" then
+					ConPrintf("                                              specName: %s", specName)
+				end
 				if specName == "Unique ID" then
 					self.uniqueID = specVal
 				elseif specName == "Item Level" then
@@ -198,12 +205,7 @@ function ItemClass:ParseRaw(raw)
 						end
 					end
 				elseif specName == "Radius" and self.type == "Jewel" then
-					for index, data in pairs(verData.jewelRadius) do
-						if specVal:match("^%a+") == data.label then
-							self.jewelRadiusIndex = index
-							break
-						end
-					end
+					self.jewelRadiusID = specVal
 				elseif specName == "Limited to" and self.type == "Jewel" then
 					self.limit = tonumber(specVal)
 				elseif specName == "Variant" then
@@ -562,8 +564,8 @@ function ItemClass:BuildRaw()
 	if self.requirements and self.requirements.level then
 		t_insert(rawLines, "LevelReq: "..self.requirements.level)
 	end
-	if self.jewelRadiusIndex then
-		t_insert(rawLines, "Radius: "..data.jewelRadius[self.jewelRadiusIndex].label)
+	if self.jewelRadiusID then
+		t_insert(rawLines, "Radius: "..self.jewelRadiusID)
 	end
 	if self.limit then
 		t_insert(rawLines, "Limited to: "..self.limit)

@@ -389,7 +389,7 @@ function calcs.initEnv(build, mode, override)
 			-- Slot is a jewel socket, check if socket is allocated
 			if not nodes[slot.nodeId] then
 				item = nil
-			elseif item and item.jewelRadiusIndex then
+			elseif item and item.jewelRadiusID then
 				-- Jewel has a radius, add it to the list
 				local funcList = item.jewelData.funcList or { { type = "Self", func = function(node, out, data)
 					-- Default function just tallies all stats in radius
@@ -402,17 +402,17 @@ function calcs.initEnv(build, mode, override)
 				for _, func in ipairs(funcList) do
 					local node = env.spec.nodes[slot.nodeId]
 					t_insert(env.radiusJewelList, {
-						nodes = node.nodesInRadius[item.jewelRadiusIndex],
+						nodes = node.nodesInRadius[item.jewelRadiusID],
 						func = func.func,
 						type = func.type,
 						item = item,
 						nodeId = slot.nodeId,
-						attributes = node.attributesInRadius[item.jewelRadiusIndex],
+						attributes = node.attributesInRadius[item.jewelRadiusID],
 						data = { }
 					})
 					if func.type ~= "Self" then
 						-- Add nearby unallocated nodes to the extra node list
-						for nodeId, node in pairs(node.nodesInRadius[item.jewelRadiusIndex]) do
+						for nodeId, node in pairs(node.nodesInRadius[item.jewelRadiusID]) do
 							if not nodes[nodeId] then
 								env.extraRadiusNodeList[nodeId] = env.spec.nodes[nodeId]
 							end

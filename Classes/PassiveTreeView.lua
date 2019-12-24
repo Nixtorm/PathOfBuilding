@@ -467,8 +467,8 @@ function PassiveTreeViewClass:Draw(build, viewPort, inputEvents)
 						SetDrawColor(1, 0, 0)
 					elseif hoverNode.type == "Socket" then
 						-- Hover node is a socket, check if this node falls within its radius and color it accordingly
-						for index, data in ipairs(build.data.jewelRadius) do
-							if hoverNode.nodesInRadius[index][node.id] then
+						for id, data in pairs(build.data.jewelRadius) do
+							if hoverNode.nodesInRadius[id][node.id] then
 								SetDrawColor(data.col)
 								break
 							end
@@ -504,20 +504,30 @@ function PassiveTreeViewClass:Draw(build, viewPort, inputEvents)
 		if node == hoverNode then
 			-- Mouse is over this socket, show all radius rings
 			local scrX, scrY = treeToScreen(node.x, node.y)
-			for _, radData in ipairs(build.data.jewelRadius) do
-				local size = radData.rad * scale
+			for _, radData in pairs(build.data.jewelRadius) do
+				local size = radData.outerRadius * scale
 				SetDrawColor(radData.col)
 				DrawImage(self.ring, scrX - size, scrY - size, size * 2, size * 2)
+				if radData.innerRadius > 0 then
+					local size = radData.innerRadius * scale
+					SetDrawColor("^xFFFFFF")
+					DrawImage(self.ring, scrX - size, scrY - size, size * 2, size * 2)
+				end
 			end
 		elseif node.alloc then
 			local socket, jewel = build.itemsTab:GetSocketAndJewelForNodeID(nodeId)
-			if jewel and jewel.jewelRadiusIndex then
+			if jewel and jewel.jewelRadiusID then
 				-- Socket is allocated and there's a jewel socketed into it which has a radius, so show it
 				local scrX, scrY = treeToScreen(node.x, node.y)
-				local radData = build.data.jewelRadius[jewel.jewelRadiusIndex]
-				local size = radData.rad * scale
+				local radData = build.data.jewelRadius[jewel.jewelRadiusID]
+				local size = radData.outerRadius * scale
 				SetDrawColor(radData.col)
-				DrawImage(self.ring, scrX - size, scrY - size, size * 2, size * 2)				
+				DrawImage(self.ring, scrX - size, scrY - size, size * 2, size * 2)
+				if radData.innerRadius > 0 then
+					local size = radData.innerRadius * scale
+					SetDrawColor("^xFFFFFF")
+					DrawImage(self.ring, scrX - size, scrY - size, size * 2, size * 2)
+				end
 			end
 		end
 	end
@@ -600,19 +610,19 @@ function PassiveTreeViewClass:AddNodeName(tooltip, node, build)
 	tooltip:AddLine(24, "^7"..node.dn..(launch.devModeAlt and " ["..node.id.."]" or ""))
 	if node.type == "Socket" then
 		local attribTotals = { }
-		for nodeId in pairs(node.nodesInRadius[2]) do
+		for nodeId in pairs(node.nodesInRadius["Medium"]) do
 			local specNode = build.spec.nodes[nodeId]
 			for _, attrib in ipairs{"Str","Dex","Int"} do
 				attribTotals[attrib] = (attribTotals[attrib] or 0) + specNode.finalModList:Sum("BASE", nil, attrib)
 			end
 		end
-		if attribTotals["Str"] and attribTotals["Str"] >= 40 then
+		if attribTotals["Str"] >= 40 then
 			tooltip:AddLine(16, "^7Can support "..colorCodes.STRENGTH.."Strength ^7threshold jewels")
 		end
-		if attribTotals["Dex"] and attribTotals["Dex"] >= 40 then
+		if attribTotals["Dex"] >= 40 then
 			tooltip:AddLine(16, "^7Can support "..colorCodes.DEXTERITY.."Dexterity ^7threshold jewels")
 		end
-		if attribTotals["Int"] and attribTotals["Int"] >= 40 then
+		if attribTotals["Int"] >= 40 then
 			tooltip:AddLine(16, "^7Can support "..colorCodes.INTELLIGENCE.."Intelligence ^7threshold jewels")
 		end
 	end

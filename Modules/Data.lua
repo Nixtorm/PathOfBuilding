@@ -114,20 +114,13 @@ data.powerStatList = {
 data.skillColorMap = { colorCodes.STRENGTH, colorCodes.DEXTERITY, colorCodes.INTELLIGENCE, colorCodes.NORMAL }
 
 data.jewelRadius = {
-	{ rad = 800, col = "^xBB6600", label = "Small" },
-	{ rad = 860, col = "^xFFFFFF", label = "ToHSmInner"},
-	{ rad = 1099, col = "^xBA0021", label = "ToHSmall"},
-	
-	{ rad = 1165, col = "^xFFFFFF", label = "ToHMedInner"},
-	{ rad = 1200, col = "^x66FFCC", label = "Medium" },
-	{ rad = 1397, col = "^xD3DA00", label = "ToHMedium"},
-	
-	{ rad = 1468, col = "^xFFFFFF", label = "ToHLgInner" },
-	{ rad = 1500, col = "^x2222CC", label = "Large" },
-	{ rad = 1701, col = "^x005902", label = "ToHLarge" },
-	
-	{ rad = 1772, col = "^xFFFFFF", label = "ToHXLInner" },
-	{ rad = 2000, col = "^x780087", label = "ToHXL" }
+	["Small"]     = { outerRadius = 800,  innerRadius = 0,    col = "^xBB6600", label = "Small" },
+	["ToHSmall"]  = { outerRadius = 1099, innerRadius = 860,  col = "^xBA0021", label = "Thread of Hope (Small)" },
+	["ToHMedium"] = { outerRadius = 1397, innerRadius = 1165, col = "^xD3DA00", label = "Thread of Hope (Medium)" },
+	["Medium"]    = { outerRadius = 1200, innerRadius = 0,    col = "^x66FFCC", label = "Medium" },
+	["Large"]     = { outerRadius = 1500, innerRadius = 0,    col = "^x2222CC", label = "Large" },
+	["ToHLarge"]  = { outerRadius = 1701, innerRadius = 1468, col = "^x005902", label = "Thread of Hope (Large)" },
+	["ToHXL"]     = { outerRadius = 2000, innerRadius = 1772, col = "^x780087", label = "Thread of Hope (XL)" },
 }
 
 data.labyrinths = {
