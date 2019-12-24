@@ -616,19 +616,19 @@ function PassiveTreeViewClass:AddNodeName(tooltip, node, build)
 	tooltip:AddLine(24, "^7"..node.dn..(launch.devModeAlt and " ["..node.id.."]" or ""))
 	if node.type == "Socket" then
 		local attribTotals = { }
-		for nodeId in pairs(node.nodesInRadius[2]) do
+		for nodeId in pairs(node.nodesInRadius["Medium"]) do
 			local specNode = build.spec.nodes[nodeId]
 			for _, attrib in ipairs{"Str","Dex","Int"} do
 				attribTotals[attrib] = (attribTotals[attrib] or 0) + specNode.finalModList:Sum("BASE", nil, attrib)
 			end
 		end
-		if attribTotals["Str"] and attribTotals["Str"] >= 40 then
+		if attribTotals["Str"] >= 40 then
 			tooltip:AddLine(16, "^7Can support "..colorCodes.STRENGTH.."Strength ^7threshold jewels")
 		end
-		if attribTotals["Dex"] and attribTotals["Dex"] >= 40 then
+		if attribTotals["Dex"] >= 40 then
 			tooltip:AddLine(16, "^7Can support "..colorCodes.DEXTERITY.."Dexterity ^7threshold jewels")
 		end
-		if attribTotals["Int"] and attribTotals["Int"] >= 40 then
+		if attribTotals["Int"] >= 40 then
 			tooltip:AddLine(16, "^7Can support "..colorCodes.INTELLIGENCE.."Intelligence ^7threshold jewels")
 		end
 	end
