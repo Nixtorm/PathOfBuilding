@@ -467,8 +467,8 @@ function PassiveTreeViewClass:Draw(build, viewPort, inputEvents)
 						SetDrawColor(1, 0, 0)
 					elseif hoverNode.type == "Socket" then
 						-- Hover node is a socket, check if this node falls within its radius and color it accordingly
-						for index, data in ipairs(build.data.jewelRadius) do
-							if hoverNode.nodesInRadius[index][node.id] then
+						for id, data in pairs(build.data.jewelRadius) do
+							if hoverNode.nodesInRadius[id][node.id] then
 								SetDrawColor(data.col)
 								break
 							end
